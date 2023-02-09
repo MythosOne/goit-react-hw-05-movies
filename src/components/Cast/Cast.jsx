@@ -1,16 +1,21 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { apiServiceGetMoviesCredits } from '../../Api/apiService';
+import { ListItem, Img, Title, List, Paragraph } from './Cast.styled';
+import Loader from '../Loader/Loader';
 
 export const Cast = () => {
     const { movieId } = useParams();
     const [cast, setCast] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
+        setIsLoading(true);
         const getMovieCreditsID = async () => {
             const movieCredits = await apiServiceGetMoviesCredits(movieId);
 
-            setCast(movieCredits);
+            setCast(movieCredits.cast);
+            setIsLoading(false);
         };
 
         getMovieCreditsID();
@@ -18,29 +23,30 @@ export const Cast = () => {
 
     return (
         <>
+            {isLoading && <Loader />}
             {cast.length > 0 ? (
-                <ul>
+                <List>
                     {cast.map(item => (
-                        <li key={item.cast_id}>
+                        <ListItem key={item.cast_id}>
                             <div>
-                                <img
+                                <Img
                                     src={
                                         item.profile_path
-                                            ? `https://image.tmdb.org/t/p/w500${item.profile_path}
+                                            ? `https://image.tmdb.org/t/p/w300${item.profile_path}
 `
-                                            : 'image not found 😒'
+                                            : 'https://via.placeholder.com/300.png?text=No image'
                                     }
                                     alt={item.name}
                                 />
-                                <h3>{item.name}</h3>
-                                <p>Character {item.character}</p>
+                                <Title>{item.name}</Title>
+                                <Paragraph>Character {item.character}</Paragraph>
                             </div>
-                        </li>
+                        </ListItem>
                     ))}
-                </ul>
+                </List>
             ) : (
-                <p>No information</p>
-            )};
+                <p>We don't have any cast for this movie 😯</p>
+            )}
         </>
     );
 };

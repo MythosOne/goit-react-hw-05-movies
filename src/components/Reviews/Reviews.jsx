@@ -1,23 +1,40 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { apiServiceGetMoviesReviews } from '../../Api/apiService';
+import Loader from '../Loader/Loader';
+
 export const Reviews = () => {
+    const { movieId } = useParams();
+    const [reviews, setReviews] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        setIsLoading(true);
+        const getMoviesReviewsID = async () => {
+            const getMoviesReviews = await apiServiceGetMoviesReviews(movieId);
+
+            setReviews(getMoviesReviews.results);
+            setIsLoading(false);
+        };
+
+        getMoviesReviewsID();
+    }, [movieId]);
+
     return (
-        <section>
-            <div>
-                <h2>First review - 4.6/5</h2>
-                <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem harum
-                    architecto sapiente corporis, voluptatem quas voluptatibus fugiat
-                    nulla commodi quidem, dolorem distinctio inventore blanditiis illo
-                    tenetur aut enim ex laborum!
-                </p>
-            </div>
-            <div>
-                <h2>Second review - 4.8/5</h2>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti
-                    nihil ea, eaque fugit amet possimus officiis asperiores aperiam facere
-                    et?
-                </p>
-            </div>
-        </section>
+        <>
+            {isLoading && <Loader />}
+            {reviews.length > 0 ? (
+                <ul>
+                    {reviews.map(review => (
+                        <li key={review.id}>
+                            <h4>Author {review.author}</h4>
+                            <p>{review.content}</p>
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <p>We don't have any reviews for this movie 😯</p>
+            )}
+        </>
     );
 };

@@ -1,6 +1,6 @@
 import { apiServiceGetMoviesDetails } from '../Api/apiService';
 import { useState, useEffect } from 'react';
-import { useParams, Link, useLocation, } from 'react-router-dom';
+import { useParams, Link, useLocation, Outlet, } from 'react-router-dom';
 import { useRef } from 'react';
 import { MovieCard } from 'components/MovieCard/MovieCard';
 import Loader from '../components/Loader/Loader';
@@ -39,15 +39,15 @@ export const MovieDetails = () => {
         <>
             <BackLink to={ref.current}> ← Go back</BackLink>
             {movie && <MovieCard movieInfo={movie} />}
-            {/* <Link to={`/movies/${movieId}`}></Link> */}
             <ul>
                 <li>
-                    <Link to="cast" >Cast</Link>
+                    <Link to="cast">Cast</Link>
                 </li>
                 <li>
                     <Link to="reviews">Reviews</Link>
                 </li>
             </ul>
+            <Outlet/>
             {isLoading && <Loader />}
         </>
     );
