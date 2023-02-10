@@ -18,7 +18,7 @@ export const ListItem = styled.li`
   &:last-child {
     margin-bottom: 0;
   }
-`; 
+`;
 
 export const Img = styled.img`
   display: block;

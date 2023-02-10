@@ -5,48 +5,53 @@ import { ListItem, Img, Title, List, Paragraph } from './Cast.styled';
 import Loader from '../Loader/Loader';
 
 export const Cast = () => {
-    const { movieId } = useParams();
-    const [cast, setCast] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+  const { movieId } = useParams();
+  const [cast, setCast] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-    useEffect(() => {
-        setIsLoading(true);
-        const getMovieCreditsID = async () => {
-            const movieCredits = await apiServiceGetMoviesCredits(movieId);
+  useEffect(() => {
+    setIsLoading(true);
+    
+    const getMovieCreditsID = async () => {
+      try {
+        const movieCredits = await apiServiceGetMoviesCredits(movieId);
+        setCast(movieCredits.cast);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-            setCast(movieCredits.cast);
-            setIsLoading(false);
-        };
+    getMovieCreditsID();
+  }, [movieId]);
 
-        getMovieCreditsID();
-    }, [movieId]);
-
-    return (
-        <>
-            {isLoading && <Loader />}
-            {cast.length > 0 ? (
-                <List>
-                    {cast.map(item => (
-                        <ListItem key={item.cast_id}>
-                            <div>
-                                <Img
-                                    src={
-                                        item.profile_path
-                                            ? `https://image.tmdb.org/t/p/w300${item.profile_path}
+  return (
+    <>
+      {isLoading && <Loader />}
+      {cast.length > 0 ? (
+        <List>
+          {cast.map(item => (
+            <ListItem key={item.cast_id}>
+              <div>
+                <Img
+                  src={
+                    item.profile_path
+                      ? `https://image.tmdb.org/t/p/w300${item.profile_path}
 `
-                                            : 'https://via.placeholder.com/300.png?text=No image'
-                                    }
-                                    alt={item.name}
-                                />
-                                <Title>{item.name}</Title>
-                                <Paragraph>Character {item.character}</Paragraph>
-                            </div>
-                        </ListItem>
-                    ))}
-                </List>
-            ) : (
-                <p>We don't have any cast for this movie 😯</p>
-            )}
-        </>
-    );
+                      : 'https://via.placeholder.com/300.png?text=No image'
+                  }
+                  alt={item.name}
+                />
+                <Title>{item.name}</Title>
+                <Paragraph>Character {item.character}</Paragraph>
+              </div>
+            </ListItem>
+          ))}
+        </List>
+      ) : (
+        <p>We don't have any cast for this movie 😯</p>
+      )}
+    </>
+  );
 };
