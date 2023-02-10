@@ -5,7 +5,7 @@ import { SearchBox } from 'components/SearchBox/SearchBox';
 import { useSearchParams } from 'react-router-dom';
 import Loader from '../components/Loader/Loader';
 
-export const Movies = () => {
+const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [movies, setMovies] = useState([]);
   const [message, setMessage] = useState('');
@@ -50,3 +50,5 @@ export const Movies = () => {
     </>
   );
 };
+
+export default Movies;

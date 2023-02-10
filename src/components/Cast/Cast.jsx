@@ -4,7 +4,7 @@ import { apiServiceGetMoviesCredits } from '../../Api/apiService';
 import { ListItem, Img, Title, List, Paragraph } from './Cast.styled';
 import Loader from '../Loader/Loader';
 
-export const Cast = () => {
+const Cast = () => {
   const { movieId } = useParams();
   const [cast, setCast] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -55,3 +55,5 @@ export const Cast = () => {
     </>
   );
 };
+
+export default Cast;

@@ -16,7 +16,7 @@ const BackLink = styled(Link)`
   }
 `;
 
-export const MovieDetails = () => {
+const MovieDetails = () => {
   const [movie, setMovie] = useState();
   const { movieId } = useParams();
   const [isLoading, setIsLoading] = useState(false);
@@ -58,3 +58,5 @@ export const MovieDetails = () => {
     </>
   );
 };
+
+export default MovieDetails;

@@ -3,14 +3,14 @@ import { apiServiceGetTrending } from '../Api/apiService';
 import { MoviesList } from 'components/MoviesList/MoviesList';
 import Loader from '../components/Loader/Loader';
 
-export const Home = () => {
+const Home = () => {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
     
-    const getTrendingMovies = async () => { 
+    const getTrendingMovies = async () => {
       try {
         const data = await apiServiceGetTrending();
         setMovies(data);
@@ -32,3 +32,5 @@ export const Home = () => {
     </>
   );
 };
+
+export default Home;
